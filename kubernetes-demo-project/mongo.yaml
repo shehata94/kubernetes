@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb-deployment
+  labels:
+    app: mongodb
+spec:
+  selector:
+    matchLabels:
+      octopusexport: OctopusExport
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mongodb
+        octopusexport: OctopusExport
+    spec:
+      containers:
+        - name: mongodb
+          image: mongo
+          ports:
+            - name: port
+              containerPort: 27017
+              protocol: TCP
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: mongo-root-username
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: mongo-root-password
