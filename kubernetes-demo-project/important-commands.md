@@ -12,8 +12,13 @@ kubectl apply -f mongo.yaml
 kubectl get secret
 kubectl get all
 kubectl get pod 
+kubectl get pod -o wide // more info about ip address
+kubectl get service
 kubectl get pod --watch // get pod status
 kubectl decribe pod <"pod name"> // get pod info
+kubectl describe service <"service name">
+kubectl logs <"pod name">
+
 ```
 
 
