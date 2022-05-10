@@ -25,7 +25,13 @@ spec:
               containerPort: 27017
               protocol: TCP
           env:
-            - name: MONGO_INITDB_ROOT_USERNAME
-              value: mongo-root-username
             - name: MONGO_INITDB_ROOT_PASSWORD
-              value: mongo-root-password
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secret
+                  key: mongo-root-password
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secret
+                  key: mongo-root-username
