@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb-express
+  labels:
+    app: mongodb-express
+spec:
+  selector:
+    matchLabels:
+      octopusexport: OctopusExport
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mongodb-express
+        octopusexport: OctopusExport
+    spec:
+      containers:
+        - name: mongodb-express
+          image: mongodb-express
+          ports:
+            - name: port
+              containerPort: 27017
+              protocol: TCP
+          env:
+            - name: ME_CONFIG_MONGODB_ADMINUSERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secret
+                  key: mongo-root-password
+            - name: ME_CONFIG_MONGODB_ADMINPASSWORD 
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secret
+                  key: mongo-root-username
+            - name: ME_CONFIG_MONGODB_SERVER 
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-configmap
+                  key: database_url
